@@ -1,7 +1,7 @@
 package com.example.blog.controller;
 
 import com.example.blog.dto.UserDto;
-import com.example.blog.service.UserService;
+import com.example.blog.service.IUserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api")
 public class UserController {
-    private final UserService userService;
+    private final IUserService userService;
 
 
     @PostMapping("/signup")
@@ -22,6 +22,5 @@ public class UserController {
     public ResponseEntity loginUser(@RequestBody UserDto userDto) {
         return userService.login(userDto);
     }
-
 
 }

@@ -1,7 +1,9 @@
 package com.example.blog.controller;
 
 import com.example.blog.dto.LikeDto;
-import com.example.blog.service.LikeService;
+import com.example.blog.exception.PostNotFoundException;
+import com.example.blog.exception.UserNotFoundException;
+import com.example.blog.service.ILikeService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,11 +12,10 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("api/like")
 public class LikesController {
+    private ILikeService likeService;
 
-    private LikeService likeService;
-
-    @PostMapping("/{postId}/{userId}")
-    public ResponseEntity<String> likePost(@PathVariable("postId") long postId, @PathVariable("userId") long userId){
-        return likeService.likePost(postId, userId);
+    @PostMapping
+    public ResponseEntity<String>likePost(@RequestBody LikeDto likeDto) throws UserNotFoundException, PostNotFoundException {
+        return likeService.likePost(likeDto);
     }
 }

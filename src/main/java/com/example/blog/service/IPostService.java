@@ -7,8 +7,8 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
-public interface PostService {
-    ResponseEntity createPost(PostDto postDto);
+public interface IPostService {
+    ResponseEntity createPost(PostDto postDto) throws UserNotFoundException;
 
     ResponseEntity updatePost(PostDto postDto) throws PostNotFoundException, UserNotFoundException;
 

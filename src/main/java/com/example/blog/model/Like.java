@@ -17,12 +17,12 @@ public class Like {
     private long id;
 
     // no need to even have a field. you either like or stay out.
-
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "post_id",nullable = false)
     private Post post;
 
-//    @JsonManagedReference
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;

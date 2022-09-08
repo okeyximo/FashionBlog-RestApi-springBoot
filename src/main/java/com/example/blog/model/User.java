@@ -27,18 +27,6 @@ public class User {
     private @NonNull String email;
     private @NonNull String password;
 
-//    @JsonBackReference
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-//    private List<Post> post;
-
-//    @JsonManagedReference
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-//    private List<Comment> comment;
-//
-//    @JsonManagedReference
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-//    private List<Like> likes;
-
     @CreationTimestamp
     private LocalDateTime timeCreated;
 

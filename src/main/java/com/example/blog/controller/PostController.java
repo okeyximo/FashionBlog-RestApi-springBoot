@@ -3,7 +3,7 @@ package com.example.blog.controller;
 import com.example.blog.dto.PostDto;
 import com.example.blog.exception.PostNotFoundException;
 import com.example.blog.exception.UserNotFoundException;
-import com.example.blog.service.PostService;
+import com.example.blog.service.IPostService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,17 +14,17 @@ import java.util.List;
 @RestController
 @RequestMapping("api/post")
 public class PostController {
-    private final PostService postService;
+    private final IPostService postService;
 
     @PostMapping("/create")
-    public ResponseEntity createPost(@RequestBody PostDto postDto){
+    public ResponseEntity createPost(@RequestBody PostDto postDto) throws UserNotFoundException {
         return postService.createPost(postDto);
     }
-    @PostMapping("/update")
+    @PutMapping("/update")
     public ResponseEntity updatePost(@RequestBody PostDto postDto) throws UserNotFoundException, PostNotFoundException {
         return postService.updatePost(postDto);
     }
-    @PostMapping("/delete")
+    @DeleteMapping ("/delete")
     public ResponseEntity deletePost(@RequestBody PostDto postDto) throws PostNotFoundException {
         return postService.deletePost(postDto);
     }

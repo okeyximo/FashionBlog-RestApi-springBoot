@@ -1,17 +1,13 @@
-package com.example.blog.dto;
-
+package com.example.blog.dto.Payload;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
-public class LikeDto {
-    private long userId;
+public class LikePayLoad {
     private String userNameOfLiker;
-    private long postId;
-    private long count;
     private boolean isLiked;
 }

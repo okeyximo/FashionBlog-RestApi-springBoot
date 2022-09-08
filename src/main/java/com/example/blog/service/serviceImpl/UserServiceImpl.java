@@ -4,7 +4,7 @@ import com.example.blog.dto.UserDto;
 import com.example.blog.model.User;
 import com.example.blog.pojos.ApiResponse;
 import com.example.blog.repositories.UserRepository;
-import com.example.blog.service.UserService;
+import com.example.blog.service.IUserService;
 import com.example.blog.utils.ResponseGenerator;
 import lombok.AllArgsConstructor;
 //import org.modelmapper.ModelMapper;
@@ -16,7 +16,7 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements IUserService {
     private final UserRepository userRepo;
 //    private final ModelMapper modelMapper;
     private final ResponseGenerator responseGenerator;
