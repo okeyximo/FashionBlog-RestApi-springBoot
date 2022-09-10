@@ -1,6 +1,8 @@
 package com.example.blog.service.serviceImpl;
 
+import com.example.blog.dto.Payload.UserPayLoad;
 import com.example.blog.dto.UserDto;
+import com.example.blog.exception.UserNotFoundException;
 import com.example.blog.model.User;
 import com.example.blog.pojos.ApiResponse;
 import com.example.blog.repositories.UserRepository;
@@ -23,15 +25,15 @@ public class UserServiceImpl implements IUserService {
 
 
     @Override
-    public ResponseEntity login(UserDto userDto) {
-        Optional<User> userOptional = userRepo.findUserByEmailAndPassword(userDto.getEmail(), userDto.getPassword());
-        if (userOptional.isEmpty()){
-            return responseGenerator.notFound(new ApiResponse<>("Invalid email or password", false, LocalDateTime.now(), null));
-        }
+    public ResponseEntity login(UserDto userDto) throws UserNotFoundException {
+        User user = userRepo.findUserByEmailAndPassword(userDto.getEmail(), userDto.getPassword()).orElseThrow(()->new UserNotFoundException("Incorrect email or password"));
+       return responseGenerator.OK(user);
+    }
 
-        User response = userOptional.get();
-
-        return responseGenerator.OK(response);
+    @Override
+    public UserPayLoad login1(UserDto userDto) throws UserNotFoundException {
+        User user = userRepo.findUserByEmailAndPassword(userDto.getEmail(), userDto.getPassword()).orElseThrow(()->new UserNotFoundException("Incorrect email or password"));
+        return null;
     }
 
     @Override
@@ -40,11 +42,13 @@ public class UserServiceImpl implements IUserService {
         if (userRepo.findByEmail(email).isEmpty()) {
             User user = userRepo.save(mapToEntity(userdto));
             UserDto response = mapToDto(user);
-            return responseGenerator.OK(new ApiResponse("user created successfully", true, LocalDateTime.now(), response));
+            return responseGenerator.created(response);
         } else {
             return responseGenerator.alreadyExist("user already exist");
         }
     }
+
+
 
     // convert entity to dto
     private UserDto mapToDto(User user) {

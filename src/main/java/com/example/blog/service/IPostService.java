@@ -12,9 +12,12 @@ public interface IPostService {
 
     ResponseEntity updatePost(PostDto postDto) throws PostNotFoundException, UserNotFoundException;
 
-    ResponseEntity deletePost(PostDto postDto) throws PostNotFoundException;
+
+    ResponseEntity deletePost(Long id) throws PostNotFoundException;
 
     ResponseEntity<List<PostDto>> getAllPosts();
 
     ResponseEntity<PostDto> getPost(Long postId) throws PostNotFoundException;
+
+    ResponseEntity searchPostByKeyWord(String keyword);
 }

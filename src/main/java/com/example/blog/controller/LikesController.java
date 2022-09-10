@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("api/like")
+@RequestMapping("api/v1/like")
 public class LikesController {
     private ILikeService likeService;
 

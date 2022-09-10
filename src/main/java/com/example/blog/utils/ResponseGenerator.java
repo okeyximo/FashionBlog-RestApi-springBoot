@@ -14,7 +14,8 @@ import static org.springframework.http.HttpStatus.*;
 public class ResponseGenerator<T> {
 
     public ResponseEntity<ApiResponse> OK(T response){
-        return new ResponseEntity<>(new ApiResponse("Request successful", true, LocalDateTime.now(), response), OK);
+        ResponseEntity response1 = new ResponseEntity<>(new ApiResponse("Request successful", true, LocalDateTime.now(), response), OK);
+        return response1;
     }
 
     public ResponseEntity<ApiResponse> created(T response){

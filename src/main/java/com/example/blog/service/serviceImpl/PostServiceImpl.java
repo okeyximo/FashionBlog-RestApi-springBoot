@@ -2,6 +2,7 @@ package com.example.blog.service.serviceImpl;
 
 import com.example.blog.dto.Payload.CommentPayLoad;
 import com.example.blog.dto.Payload.LikePayLoad;
+import com.example.blog.dto.Payload.PostPayLoad;
 import com.example.blog.dto.PostDto;
 import com.example.blog.exception.PostNotFoundException;
 import com.example.blog.exception.UserNotFoundException;
@@ -37,10 +38,9 @@ public class PostServiceImpl implements IPostService {
         post.setUser(user);
         post.setContent(postDto.getPostContent());
         post.setDescription(postDto.getDescription());
-        post.setTitle(post.getTitle());
-        PostDto response = mapPostToDto(postRepository.save(post));
+        post.setTitle(postDto.getTitle());
+        PostPayLoad response = mapPostToPostPayLoad(postRepository.save(post));
         return responseGenerator.created(response);
-
     }
 
     @Override
@@ -51,12 +51,12 @@ public class PostServiceImpl implements IPostService {
         post.setContent(postDto.getPostContent());
         post.setDescription(postDto.getDescription());
         post.setUser(user);
-        return responseGenerator.OK(mapPostToDto(postRepository.save(post)));
+        return responseGenerator.OK(mapPostToPostPayLoad(postRepository.save(post)));
     }
 
     @Override
-    public ResponseEntity deletePost(PostDto postDto) throws PostNotFoundException {
-        Post post = postRepository.findById(postDto.getPostId()).orElseThrow(() -> new PostNotFoundException("Post not found"));
+    public ResponseEntity deletePost(Long id) throws PostNotFoundException {
+        Post post = postRepository.findById(id).orElseThrow(() -> new PostNotFoundException("Post not found"));
         postRepository.delete(post);
         String response = "Post have been deleted";
         return responseGenerator.OK(response);
@@ -65,8 +65,8 @@ public class PostServiceImpl implements IPostService {
     @Override
     public ResponseEntity<List<PostDto>> getAllPosts() {
         List<Post> posts = postRepository.findAll();
-        List<PostDto> postDtos = posts.stream().map(this::mapPostToDto).toList();
-        return responseGenerator.OK(postDtos);
+        List<PostPayLoad> postPayLoads = posts.stream().map(this::mapPostToPostPayLoad).toList();
+        return responseGenerator.OK(postPayLoads);
     }
 
     @Override
@@ -74,9 +74,9 @@ public class PostServiceImpl implements IPostService {
         Post post = postRepository.findById(postId).orElseThrow(() -> new PostNotFoundException("Post Not found"));
         return responseGenerator.OK(mapPostToDto(post));
     }
-
-    public ResponseEntity searchPostByKeyWord(String keyword){
-        List<PostDto>response = postRepository.findAllByTitleContainingIgnoreCase(keyword).stream().map(this::mapPostToDto).toList();
+@Override
+    public ResponseEntity searchPostByKeyWord(String keyWord){
+        List<PostDto>response = postRepository.findAllByTitleContainingIgnoreCase(keyWord).stream().map(this::mapPostToDto).toList();
         return responseGenerator.OK(response);
     }
 
@@ -84,16 +84,32 @@ public class PostServiceImpl implements IPostService {
 //       return modelMapper.map(post, PostDto.class);
         long postUserId = post.getUser().getId();
         PostDto postDto = new PostDto();
-        postDto.setPostId(postUserId);
+        postDto.setPostId(post.getId());
         postDto.setOp(post.getUser().getUsername());
         postDto.setDescription(post.getDescription());
         postDto.setPostContent(post.getContent());
         postDto.setTitle(post.getTitle());
-        postDto.setLikes(post.getLikes().stream().map(this::mapLikeToLikeDto).filter(LikePayLoad::isLiked).toList());
+        postDto.setLikes(post.getLikes().stream().map(this::mapLikeToLikePayLoad).filter(LikePayLoad::isLiked).toList());
         postDto.setComments(post.getComment().stream().map(this::mapCommentsToDTO).toList());
         return postDto;
     }
-    private LikePayLoad mapLikeToLikeDto(Like like) {
+
+
+    // todo : move to utils mapper
+
+    private PostPayLoad mapPostToPostPayLoad(Post post){
+        PostPayLoad ppl = new PostPayLoad();
+        ppl.setPostId(post.getId());
+        ppl.setOp(post.getUser().getUsername());
+        ppl.setTitle(post.getTitle());
+        ppl.setPostContent(post.getContent());
+        ppl.setDescription(post.getDescription());
+        ppl.setComments(post.getComment().stream().map(this::mapCommentsToDTO).toList());
+        ppl.setLikes(post.getLikes().stream().map(this::mapLikeToLikePayLoad).filter(LikePayLoad::isLiked).toList());
+        return ppl;
+    }
+
+    private LikePayLoad mapLikeToLikePayLoad(Like like) {
         LikePayLoad likePayLoad = new LikePayLoad();
         likePayLoad.setUserNameOfLiker(like.getUser().getUsername());
         return likePayLoad;
@@ -104,13 +120,4 @@ public class PostServiceImpl implements IPostService {
         commentPayLoad.setCommentOwner(comment.getUser().getUsername());
         return commentPayLoad;
     }
-//
-//    private Post mapToEntity(PostDto postDto){
-////       return modelMapper.map(postDto, Post.class );
-//       Post post = new Post();
-//       post.setTitle(postDto.getTitle());
-//       post.setContent(post.getContent());
-//       post.setDescription();
-//    }
-
 }

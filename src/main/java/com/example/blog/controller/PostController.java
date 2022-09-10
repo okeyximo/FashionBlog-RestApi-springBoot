@@ -12,7 +12,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("api/post")
+@RequestMapping("api/v1/post")
 public class PostController {
     private final IPostService postService;
 
@@ -25,8 +25,8 @@ public class PostController {
         return postService.updatePost(postDto);
     }
     @DeleteMapping ("/delete")
-    public ResponseEntity deletePost(@RequestBody PostDto postDto) throws PostNotFoundException {
-        return postService.deletePost(postDto);
+    public ResponseEntity deletePost(@RequestParam long postId) throws PostNotFoundException {
+        return postService.deletePost(postId);
     }
 
     @GetMapping
@@ -37,6 +37,10 @@ public class PostController {
     @GetMapping("/{postId}")
     public ResponseEntity<PostDto> getPost(@PathVariable Long postId) throws PostNotFoundException {
         return postService.getPost(postId);
+    }
+    @GetMapping("/searchBlog")
+    public ResponseEntity searchPost(@RequestParam String keyword){
+        return postService.searchPostByKeyWord(keyword);
     }
 
 }
