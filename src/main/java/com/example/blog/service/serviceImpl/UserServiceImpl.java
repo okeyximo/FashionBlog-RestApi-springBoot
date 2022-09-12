@@ -27,21 +27,18 @@ public class UserServiceImpl implements IUserService {
     @Override
     public ResponseEntity login(UserDto userDto) throws UserNotFoundException {
         User user = userRepo.findUserByEmailAndPassword(userDto.getEmail(), userDto.getPassword()).orElseThrow(()->new UserNotFoundException("Incorrect email or password"));
-       return responseGenerator.OK(user);
+        String response = "Successfully loggedIn " + user.getUsername();
+        return responseGenerator.OK(response);
     }
 
-    @Override
-    public UserPayLoad login1(UserDto userDto) throws UserNotFoundException {
-        User user = userRepo.findUserByEmailAndPassword(userDto.getEmail(), userDto.getPassword()).orElseThrow(()->new UserNotFoundException("Incorrect email or password"));
-        return null;
-    }
 
     @Override
     public ResponseEntity createUser(UserDto userdto) {
         String email = userdto.getEmail();
         if (userRepo.findByEmail(email).isEmpty()) {
             User user = userRepo.save(mapToEntity(userdto));
-            UserDto response = mapToDto(user);
+//            UserDto response = mapToDto(user);
+            String response = "Successfully registered " + user.getUsername();
             return responseGenerator.created(response);
         } else {
             return responseGenerator.alreadyExist("user already exist");

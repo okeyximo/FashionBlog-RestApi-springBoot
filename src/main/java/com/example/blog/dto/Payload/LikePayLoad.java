@@ -9,5 +9,4 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class LikePayLoad {
     private String userNameOfLiker;
-    private boolean isLiked;
 }

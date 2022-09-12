@@ -59,24 +59,4 @@ class UserRepositoryTest {
         assertEquals(user, user1.get());
     }
 
-    /**
-     * Method under test: {@link UserRepository#findUserByEmailAndPassword(String, String)}
-     */
-    @Test
-    @Disabled("TODO: Complete this test")
-    void testFindUserByEmailAndPassword() {
-        // TODO: Complete this test.
-        //   Reason: R013 No inputs found that don't throw a trivial exception.
-        //   Diffblue Cover tried to run the arrange/act section, but the method under
-        //   test threw
-        //   java.lang.NullPointerException: Cannot invoke "Object.getClass()" because "obj" is null
-        //   In order to prevent findUserByEmailAndPassword(String, String)
-        //   from throwing NullPointerException, add constructors or factory
-        //   methods that make it easier to construct fully initialized objects used in
-        //   findUserByEmailAndPassword(String, String).
-        //   See https://diff.blue/R013 to resolve this issue.
-
-        UserRepository userRepository = null;
-        userRepository.findUserByEmailAndPassword("foo", "foo");
-    }
 }

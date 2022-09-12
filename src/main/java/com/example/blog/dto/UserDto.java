@@ -1,5 +1,6 @@
 package com.example.blog.dto;
 
+import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class UserDto {
-    private String email;
-    private String password;
-    private String username;
+    private @NotNull String email;
+    private @NotNull String password;
+    private @NotNull String username;
 }

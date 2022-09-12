@@ -89,7 +89,7 @@ public class PostServiceImpl implements IPostService {
         postDto.setDescription(post.getDescription());
         postDto.setPostContent(post.getContent());
         postDto.setTitle(post.getTitle());
-        postDto.setLikes(post.getLikes().stream().map(this::mapLikeToLikePayLoad).filter(LikePayLoad::isLiked).toList());
+        postDto.setLikes(post.getLikes().stream().map(this::mapLikeToLikePayLoad).toList());
         postDto.setComments(post.getComment().stream().map(this::mapCommentsToDTO).toList());
         return postDto;
     }
@@ -105,7 +105,7 @@ public class PostServiceImpl implements IPostService {
         ppl.setPostContent(post.getContent());
         ppl.setDescription(post.getDescription());
         ppl.setComments(post.getComment().stream().map(this::mapCommentsToDTO).toList());
-        ppl.setLikes(post.getLikes().stream().map(this::mapLikeToLikePayLoad).filter(LikePayLoad::isLiked).toList());
+        ppl.setLikes(post.getLikes().stream().map(this::mapLikeToLikePayLoad).toList());
         return ppl;
     }
 

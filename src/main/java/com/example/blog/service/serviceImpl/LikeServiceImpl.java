@@ -1,6 +1,7 @@
 package com.example.blog.service.serviceImpl;
 
 import com.example.blog.dto.LikeDto;
+import com.example.blog.dto.Payload.LikePayLoad;
 import com.example.blog.exception.PostNotFoundException;
 import com.example.blog.exception.UserNotFoundException;
 import com.example.blog.model.Like;
@@ -33,6 +34,7 @@ public class LikeServiceImpl implements ILikeService {
         Post post = postRepository.findById(likeDto.getPostId()).orElseThrow(() -> new PostNotFoundException("Post not found"));
         User user = userRepository.findUserById(likeDto.getUserId()).orElseThrow(() -> new UserNotFoundException("User not found"));
         LikeDto response = new LikeDto();
+//        LikePayLoad response = new LikePayLoad();
         Optional<Like> likeOptional = likeRepository.findByPostAndUser(post, user);
         if (likeOptional.isEmpty()) {
             Like like = new Like(post, user);
@@ -41,6 +43,7 @@ public class LikeServiceImpl implements ILikeService {
             response.setPostId(likeDto.getPostId());
             response.setCount(totalLikes);
             response.setUserId(likeDto.getUserId());
+            response.setUserNameOfLiker(post.getUser().getUsername());
             response.setLiked(true);
             return responseGenerator.created(response);
         } else {

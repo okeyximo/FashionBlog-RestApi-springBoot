@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 
 public interface IUserService {
     ResponseEntity<User> login(UserDto userDto) throws UserNotFoundException;
-    UserPayLoad login1(UserDto userDto) throws UserNotFoundException;
+
     ResponseEntity createUser(UserDto userdto);
 
 
